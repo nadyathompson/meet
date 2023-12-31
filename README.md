@@ -81,5 +81,3 @@ Create and display a chart of events by city
 Given the user is viewing an event’s details page, when the user hits a button to see a chart of events in all cities, then a chart with the number of events for every city is created and shown
 
 
-
-https://docs.google.com/document/d/1brHNAIov365fsuosnDns_NyP5NDD6CYMqw-ec0pt0sQ/edit?usp=sharing)https://docs.google.com/document/d/1brHNAIov365fsuosnDns_NyP5NDD6CYMqw-ec0pt0sQ/edit?usp=sharing
