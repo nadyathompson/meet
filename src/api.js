@@ -19,15 +19,8 @@ export const extractLocations = (events) => {
  *
  * This function will fetch the list of all events
  */
-export const checkToken = async (accessToken) => {
-  const response = await fetch(
-    `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`
-  );
-  const result = await response.json();
-  return result;
-};
 
-export const removeQuery = () => {
+const removeQuery = () => {
   let newurl;
   if (window.history.pushState && window.location.pathname) {
     newurl =
@@ -53,6 +46,14 @@ export const getToken = async (code) => {
   access_token && localStorage.setItem("access_token", access_token);
 
   return access_token;
+};
+
+const checkToken = async (accessToken) => {
+  const response = await fetch(
+    `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`
+  );
+  const result = await response.json();
+  return result;
 };
 
 export const getEvents = async () => {
