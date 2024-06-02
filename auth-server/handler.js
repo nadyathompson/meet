@@ -1,4 +1,4 @@
-//'use strict';
+"use strict";
 
 const { google } = require("googleapis");
 const calendar = google.calendar("v3");
@@ -14,6 +14,11 @@ const oAuth2Client = new google.auth.OAuth2(
   redirect_uris[0]
 );
 
+const headers = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Credentials": true,
+};
+
 module.exports.getAuthURL = async () => {
   /**
    *
@@ -27,10 +32,7 @@ module.exports.getAuthURL = async () => {
 
   return {
     statusCode: 200,
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Credentials": true,
-    },
+    headers,
     body: JSON.stringify({
       authUrl,
     }),
@@ -40,6 +42,8 @@ module.exports.getAuthURL = async () => {
 module.exports.getAccessToken = async (event) => {
   // Decode authorization code extracted from the URL query
   const code = decodeURIComponent(`${event.pathParameters.code}`);
+
+  console.log({ code });
 
   return new Promise((resolve, reject) => {
     /**
@@ -58,10 +62,7 @@ module.exports.getAccessToken = async (event) => {
       // Respond with OAuth token
       return {
         statusCode: 200,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": true,
-        },
+        headers,
         body: JSON.stringify(results),
       };
     })
@@ -69,6 +70,7 @@ module.exports.getAccessToken = async (event) => {
       // Handle error
       return {
         statusCode: 500,
+        headers,
         body: JSON.stringify(error),
       };
     });
@@ -97,8 +99,7 @@ module.exports.getCalendarEvents = async (event) => {
       (error, response) => {
         if (error) {
           return reject(error);
-        }
-        return resolve(response);
+        } else return resolve(response);
       }
     );
   })
@@ -106,10 +107,8 @@ module.exports.getCalendarEvents = async (event) => {
       // Respond with OAuth token
       return {
         statusCode: 200,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": true,
-        },
+        headers,
+        // body: JSON.stringify({ events: results.data.time }),
         body: JSON.stringify(results),
       };
     })
@@ -117,6 +116,7 @@ module.exports.getCalendarEvents = async (event) => {
       // Handle error
       return {
         statusCode: 500,
+        headers,
         body: JSON.stringify(error),
       };
     });
